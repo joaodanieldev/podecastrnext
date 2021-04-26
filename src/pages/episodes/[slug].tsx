@@ -22,10 +22,10 @@ type Episode ={
 };
 
 type EpisodeProps ={
-  episodes: Episode;
+  episode: Episode;
 }
 
-export default function Episode({episode}) {
+export default function Episode({episode}: EpisodeProps) {
   return(
    <div className={styles.episode}>
      <div className={styles.thumbnailContainer}>
@@ -53,6 +53,14 @@ export default function Episode({episode}) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const { data } = await api.get('episodes', {
+    params: {
+      _limit: 2,
+      _sort: 'published_at',
+      _order: 'desc'
+    }
+  })
+
   return {
     paths: [],
     fallback: 'blocking'
